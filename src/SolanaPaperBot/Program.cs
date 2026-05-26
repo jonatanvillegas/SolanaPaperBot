@@ -21,9 +21,11 @@ var app = builder.Build();
 
 app.MapGet("/", () => "Solana Paper Bot running");
 
-app.MapGet("/status", (PaperTraderService trader) =>
+app.MapGet("/status", async (
+    PaperTraderService trader,
+    CancellationToken cancellationToken) =>
 {
-    return Results.Ok(trader.GetStatus());
+    return Results.Ok(await trader.GetStatusAsync(cancellationToken));
 });
 
 app.Run();
