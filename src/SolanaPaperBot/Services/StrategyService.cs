@@ -16,7 +16,7 @@ public sealed class StrategyService
         var emaTrend = CalculateEma(closes, 99);
         var price = closes[^1];
 
-        if (price > emaTrend && emaFast > emaSlow && rsi > 45 && rsi < 68)
+        if (price > emaTrend && emaFast > emaSlow && rsi > 52 && rsi < 65)
         {
             return new Signal(
                 SignalType.Long,
@@ -28,7 +28,7 @@ public sealed class StrategyService
             );
         }
 
-        if (price < emaTrend && emaFast < emaSlow && rsi < 55 && rsi > 32)
+        if (price < emaTrend && emaFast < emaSlow && rsi > 38 && rsi < 50)
         {
             return new Signal(
                 SignalType.Short,
