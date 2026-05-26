@@ -1,0 +1,9 @@
+services:
+  solana-paper-bot-dotnet:
+    build: .
+    container_name: solana-paper-bot-dotnet
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
