@@ -52,10 +52,11 @@ public sealed class PaperTraderService
             return;
         }
 
-        if (signal.Type == SignalType.Long && _options.AllowLong)
-            OpenTrade(state, TradeSide.Long, price, signal.Reason);
-        else if (signal.Type == SignalType.Short && _options.AllowShort)
-            OpenTrade(state, TradeSide.Short, price, signal.Reason);
+        if (signal.Type == SignalType.Long && _options.AllowShort)
+            OpenTrade(state, TradeSide.Short, price, $"INVERSO => {signal.Reason}");
+
+        else if (signal.Type == SignalType.Short && _options.AllowLong)
+            OpenTrade(state, TradeSide.Long, price, $"INVERSO => {signal.Reason}");
 
         await _storage.SaveAsync(state, cancellationToken);
     }
@@ -82,7 +83,9 @@ public sealed class PaperTraderService
     }
     private void OpenTrade(BotState state, TradeSide side, decimal price, string reason)
     {
-        var positionValue = state.Balance * _options.PositionSizePercent;
+        var positionValue =
+            (state.Balance * _options.PositionSizePercent)
+            * _options.Leverage;
         var quantity = positionValue / price;
 
         var takeProfit = side == TradeSide.Long

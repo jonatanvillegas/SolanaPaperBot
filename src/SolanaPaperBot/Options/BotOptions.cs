@@ -16,4 +16,5 @@ public sealed class BotOptions
     public int MaxTradesPerDay { get; set; } = 5;
     public bool AllowLong { get; set; } = true;
     public bool AllowShort { get; set; } = true;
+    public decimal Leverage { get; set; } = 20;
 }
